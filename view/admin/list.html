@@ -1,0 +1,25 @@
+{{define "main"}}
+<h1>Dashboard</h1>
+<hr>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Date</th>
+            <th scope="col">Title</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range .}}
+        <tr>
+            <th scope="row">{{.Id}}</th>
+            <td>{{.PostedAt.Format "Jan 02, 2006"}}</td>
+            <td>{{.Title}}</td>
+            <td><a href="/admin/edit/{{.Id}}" class="btn btn-secondary">Edit</a> <a href="/admin/delete/{{.Id}}" class="btn btn-danger">Delete</a></td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+<a href="/admin/create" type="button" class="btn btn-primary">Create</a>
+{{end}}

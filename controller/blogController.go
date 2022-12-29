@@ -28,7 +28,7 @@ func (c *BlogController) Index(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// run query
-	rows, err := db.Query("SELECT * FROM post")
+	rows, err := db.Query("SELECT * FROM post ORDER BY posted_at DESC")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,6 +41,7 @@ func (c *BlogController) Index(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		var post model.Post
 		rows.Scan(&post.Id, &post.Title, &post.PostedAt, &post.Content)
+		post.ContentHtml = template.HTML(post.Content)
 		posts = append(posts, post)
 	}
 	if err := rows.Err(); err != nil {

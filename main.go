@@ -2,7 +2,6 @@ package main
 
 import (
 	"GoBlog/controller"
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -62,15 +61,6 @@ func main() {
 	// http only cookies for security
 	store.Options.HttpOnly = true
 
-	// parseTime changes MySQL datetime/date types to Golangs time type
-	db, err := sql.Open("mysql", "root:password@(127.0.0.1:3306)/dbname?parseTime=true")
-	if err != nil {
-		log.Fatal(err)
-	}
-	if err := db.Ping(); err != nil {
-		log.Fatal(err)
-	}
-
 	// router setup
 	r := mux.NewRouter()
 
@@ -85,6 +75,13 @@ func main() {
 	r.HandleFunc("/users/create", userController.CreateUser)
 	r.HandleFunc("/usersJSON", userController.UserJson)
 	r.HandleFunc("/books/{title}/page/{page}", ReadBook).Methods("GET").Schemes("http")
+
+	var adminController controller.AdminController
+	r.HandleFunc("/admin", adminController.Index)
+	r.HandleFunc("/admin/create", adminController.Create).Methods("GET")
+	r.HandleFunc("/admin/createPost", adminController.Create).Methods("POST")
+	r.HandleFunc("/admin/edit/{id}", adminController.Edit).Methods("GET")
+	r.HandleFunc("/admin/edit/{id}", adminController.EditPost).Methods("POST")
 
 	// TinyMCE & static files support
 	r.PathPrefix("/tinymce").Handler(http.FileServer(http.Dir("./node_modules/")))

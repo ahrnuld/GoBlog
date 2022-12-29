@@ -1,0 +1,17 @@
+{{define "main"}}
+<h1>Edit Post</h1>
+<hr>
+<form method="POST">
+    <script src="/tinymce/tinymce.min.js"></script>
+    <script>tinymce.init({ selector: 'textarea' });</script>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Title</label>
+        <input type="text" class="form-control" value="{{ .Title }}" name="title">
+    </div>
+    <div class="mb-3">
+        <textarea name="content">{{ .Content }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>&nbsp;&nbsp;
+    <a href="/admin" type="button" class="btn btn-danger float-end">Cancel</a>
+</form>
+{{end}}
