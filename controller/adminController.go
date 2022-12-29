@@ -2,6 +2,7 @@ package controller
 
 import (
 	"GoBlog/model"
+	"GoBlog/repository"
 	"net/http"
 	"strconv"
 
@@ -13,7 +14,7 @@ type AdminController struct {
 
 func (c *AdminController) Index(w http.ResponseWriter, r *http.Request) {
 	// get data
-	posts := getAllPosts()
+	posts := repository.GetAllPosts()
 	// render view
 	renderAdminTemplate(w, "./view/admin/list.html", posts)
 }
@@ -28,7 +29,7 @@ func (c *AdminController) CreatePost(w http.ResponseWriter, r *http.Request) {
 		Title:   r.FormValue("title"),
 		Content: r.FormValue("content"),
 	}
-	createPost(post)
+	repository.CreatePost(post)
 	// forward to list view
 	c.Index(w, r)
 }
@@ -36,7 +37,7 @@ func (c *AdminController) CreatePost(w http.ResponseWriter, r *http.Request) {
 func (c *AdminController) Edit(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id, _ := strconv.Atoi(params["id"])
-	post := getSinglePost(id)
+	post := repository.GetSinglePost(id)
 	renderAdminTemplate(w, "./view/admin/edit.html", post)
 }
 
@@ -48,7 +49,7 @@ func (c *AdminController) EditPost(w http.ResponseWriter, r *http.Request) {
 		Title:   r.FormValue("title"),
 		Content: r.FormValue("content"),
 	}
-	updatePost(post)
+	repository.UpdatePost(post)
 	// forward to list view
 	c.Index(w, r)
 }

@@ -1,11 +1,11 @@
-package controller
+package repository
 
 import (
 	"GoBlog/model"
 	"log"
 )
 
-func getAllPosts() []model.Post {
+func GetAllPosts() []model.Post {
 	db := openConnection()
 
 	// run query
@@ -31,7 +31,7 @@ func getAllPosts() []model.Post {
 	return posts
 }
 
-func getSinglePost(id int) model.Post {
+func GetSinglePost(id int) model.Post {
 	db := openConnection()
 
 	rows, err := db.Query("SELECT * FROM post WHERE id = ?", id)
@@ -54,7 +54,7 @@ func getSinglePost(id int) model.Post {
 	return post
 }
 
-func createPost(post model.Post) {
+func CreatePost(post model.Post) {
 	db := openConnection()
 
 	_, err := db.Exec(`INSERT INTO post (title, content, posted_at) VALUES (?, ?, NOW())`, post.Title, post.Content)
@@ -63,7 +63,7 @@ func createPost(post model.Post) {
 	}
 }
 
-func updatePost(post model.Post) {
+func UpdatePost(post model.Post) {
 	db := openConnection()
 
 	_, err := db.Exec(`UPDATE post SET title = ?, content = ? WHERE id = ?`, post.Title, post.Content, post.Id)
