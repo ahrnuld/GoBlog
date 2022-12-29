@@ -1,0 +1,23 @@
+{{define "main"}}
+
+<h3 class="pb-4 mb-4 border-bottom">
+    Latest posts
+</h3>
+
+{{range .Posts}}
+<article class="blog-post">
+    <h2 class="blog-post-title mb-1">{{.Title}}</h2>
+    <p class="blog-post-meta">{{.PostedAt.Format "Jan 02, 2006"}} by <a href="#">Mark</a></p>
+
+    {{.Content}}
+
+</article>
+
+{{end}}
+
+<nav class="blog-pagination" aria-label="Pagination">
+    <a class="btn btn-outline-primary" href="#">Older</a>
+    <a class="btn btn-outline-secondary disabled">Newer</a>
+</nav>
+
+{{end}}
